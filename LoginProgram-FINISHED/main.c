@@ -10,14 +10,15 @@ int login () {
     int found = 0;  
     int trycounter = 0;
 
+    FILE *f = fopen ("users.txt", "r"); 
+    if (f == NULL)
+    {
+        printf("\nError loading user database...\n");
+        return -1;
+    }
+
     do
     {
-        FILE *f = fopen ("users.txt", "r"); 
-        if (f == NULL)
-        {
-            printf("\nError loading user database...\n");
-            return -1;
-        }
     
         printf("\n\nEnter your username (0 to close program) and password below: \n");
     
@@ -45,14 +46,21 @@ int login () {
                 {
                     printf("\n\nEnter password: ");
                     scanf("%s", &log_users->input_password);
+
                     printf("\e[1;1H\e[2J");
     
                 if (strcmp (log_users->login_password, log_users->input_password) == 0)
                 {
                     printf("\nWelcome, loggin in now...");
                     found = 1; // sucess
-    
+                    
+                    //go to user page
+                    fclose (f);
+
+                    return 0;
+
                     break;
+
                 } else {
     
                     printf("\n\nWrong password...");
@@ -74,12 +82,11 @@ int login () {
                 printf("\nUsername not found...");
             }
     
-            fclose (f);
-    
         }
 
     } while (strcmp (log_users->input_username, "0") != 0);
     
+    fclose (f);
 
     return 0;
 
