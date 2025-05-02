@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "user.c"
 
 
 int menu (){
@@ -30,7 +31,7 @@ int menu (){
 
         case 2:
 
-            //utilizador
+            usermenu();
 
             break;
 
