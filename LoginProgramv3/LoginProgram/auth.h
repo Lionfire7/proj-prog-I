@@ -25,3 +25,24 @@ typedef struct signup_user {
     char sign_password [MAX_LEN];
 
 } SIGNUP_USER;
+
+void malloc_signup_user(SIGNUP_USER *user) {
+    user = (SIGNUP_USER *)malloc(sizeof(SIGNUP_USER));
+    if (user == NULL) {
+        printf("Erro ao alocar memória.\n");
+        exit(1);
+    }
+}
+void free_signup_user(SIGNUP_USER *user) {
+    free(user);
+}
+void malloc_login_user(LOGIN_USER *user) {
+    user = (LOGIN_USER *)malloc(sizeof(LOGIN_USER));
+    if (user == NULL) {
+        printf("Erro ao alocar memória.\n");
+        exit(1);
+    }
+}
+void free_login_user(LOGIN_USER *user) {
+    free(user);
+}
