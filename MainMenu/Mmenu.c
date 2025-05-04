@@ -5,18 +5,14 @@
 
 int menu (){
 
-    int opcao = 0;
+    int opcao;
 
     do
-    {   
-
-        printf("\e[1;1H\e[2J");
-
-        printf("\nBem Vindo ao Menu Principal...\n");
-        printf("\n\n--- MENU ---\n\n");
+    {
+        printf("Bem Vindo ao Menu Principal\n");
         printf("\n1 - Administrador");
         printf("\n2 - Utilizador");
-        printf("\n0 - Sair\n");
+        printf("\n3 - Sair\n");
         printf("\nEscolha uma opção: ");
         scanf("%d", &opcao);
 
@@ -36,15 +32,7 @@ int menu (){
 
         case 0:
 
-        printf("\e[1;1H\e[2J");
-
-        printf("\nBem Vindo ao Menu Principal...\n");
-        printf("\n\n--- MENU ---\n\n");
-        printf("\n1 - Administrador");
-        printf("\n2 - Utilizador");
-        printf("\n0 - Sair\n");
-        
-            printf("\n\nA sair...\n\n\n\n");
+            printf("A sair...\n");
 
             return 0;
 
@@ -55,12 +43,7 @@ int menu (){
         }
 
     } while (opcao != 0);
+    
 
-}
 
-int main (){
-
-    menu();
-
-    return 0;
 }
