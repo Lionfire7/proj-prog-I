@@ -2,27 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include "auth.h"
-#include "main.c"
 
 int listcandidatura() {
 
-    LOGIN_USER user;
-    
-    FILE *f = fopen("users.txt", "r");
-    if (f == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
-        return 1;
-    }
-    
-    
 
 }
+
 int espacoUser() {
 
     int opcao = 0;
 
     do {
         
+        printf("\e[1;1H\e[2J");
         printf("\n1 - Listar Informação de candidatura\n");
         printf("\n2 - Alterar dados de candidatura");
         printf("\n3 - Status de colocação");

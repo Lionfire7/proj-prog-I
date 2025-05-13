@@ -3,62 +3,52 @@
 #include <string.h>
 #include "auth.h"
 
-int login() {
+int login () { 
     LOGIN_USER user;
     SIGNUP_USER temp;
 
-    FILE *f = fopen("users.txt", "r");
+    FILE *f = fopen("users.bin", "rb");
     if (f == NULL) {
         printf("\nErro ao abrir base de dados de utilizadores.\n");
         return -1;
     }
 
-    do
-    {   
-        printf("\e[1;1H\e[2J");
+    do {
 
         printf("\n\nInsira o seu username (0 para voltar): ");
-        scanf("%s", user.input_username);
+        scanf("%49s", user.input_username);
 
-        if (strcmp (user.input_username, "0") == 0)
-        {
+        if (strcmp(user.input_username, "0") == 0) {
+            fclose(f);
             return 0;
         }
 
         int found = 0;
-        rewind(f);
+        rewind(f); // Go back to start of file
 
-        while (fscanf(f, "%s %s\n\n", user.login_username, user.login_password) == 2) {
-            fgets(temp.nome, sizeof(temp.nome), f);
-            temp.nome[strcspn(temp.nome, "\n")] = '\0';
-
-            fscanf(f, "%s\n", temp.cc);
-            fscanf(f, "%s\n", temp.nif);
-            fscanf(f, "%s\n", temp.data_nasc);
-            fgets(temp.curso, sizeof(temp.curso), f);
-            temp.curso[strcspn(temp.curso, "\n")] = '\0';
-            fscanf(f, "%f\n", &temp.media);
-
-            if (strcmp(user.input_username, user.login_username) == 0) {
+        while (fread(&temp, sizeof(SIGNUP_USER), 1, f) == 1) {
+            if (strcmp(user.input_username, temp.sign_username) == 0) {
                 found = 1;
                 int trycounter = 0;
 
                 do {
                     printf("\nInsira a sua password: ");
-                    scanf("%s", user.input_password);
+                    scanf("%49s", user.input_password);
 
-                    if (strcmp(user.input_password, user.login_password) == 0) {
+                    if (strcmp(user.input_password, temp.sign_password) == 0) {
                         printf("\nLogin bem-sucedido. \nBem-vindo, %s!\n\n", temp.nome);
+
+                        //espacouser
+
+                        espacoUser();
+
                         fclose(f);
-
-                        //levar para area de user
-
                         return 0;
-                        
                     } else {
                         printf("\nPassword incorreta.\n");
                         trycounter++;
                     }
+
                 } while (trycounter < 3);
 
                 printf("\nExcedeu o número de tentativas.\n");
@@ -68,6 +58,7 @@ int login() {
         }
 
         if (!found) {
+            printf("\e[1;1H\e[2J");
             printf("\nUsername não encontrado. Tente novamente.\n");
         }
 
@@ -75,7 +66,6 @@ int login() {
 
     fclose(f);
     return 0;
-    
 }
 
 int signup() {
@@ -111,32 +101,23 @@ int signup() {
     printf("Crie uma password: ");
     scanf("%s", user.sign_password);
 
-    FILE *f = fopen("users.txt", "a");
+    FILE *f = fopen("users.bin", "ab");
     if (f == NULL) {
         printf("\nErro ao guardar utilizador.\n");
         return -1;
     }
 
-    fprintf(f, "%s %s\n\n%s\n%s\n%s\n%s\n%s\n%.2f\n",
-            user.sign_username,
-            user.sign_password,
-            user.nome,
-            user.cc,
-            user.nif,
-            user.data_nasc,
-            user.curso,
-            user.media);
-
+    fwrite(&user, sizeof(user), 1, f);
     fclose(f);
+
     printf("\nUtilizador registado com sucesso.\n");
     return 0;
 }
 
-int usermenu() {
+int main() {
     int opcao;
 
     do {
-
         printf("\e[1;1H\e[2J");
 
         printf("\n\n--- MENU ---\n\n");
@@ -154,17 +135,12 @@ int usermenu() {
                 signup();
                 break;
             case 0:
-                printf("\e[1;1H\e[2J");
+                printf("\e[1;1H\e[2J"); // Clear screen
 
-                printf("\n\n--- MENU ---\n\n");
-                printf("1 - Login\n");
-                printf("2 - Registar\n");
-                printf("0 - Sair\n");
-
-                printf("\nA sair do programa...\n");
+                printf("\n\nA sair do programa...\n");
                 break;
             default:
-                printf("\nOpção inválida.\n");
+                printf("\nOpção inválida. Tente novamente.\n");
         }
     } while (opcao != 0);
 

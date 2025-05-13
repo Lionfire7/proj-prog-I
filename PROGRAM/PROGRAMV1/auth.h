@@ -1,5 +1,6 @@
 #define MAX_USERS 100
 #define MAX_LEN 100
+#define MAX_STACK_SIZE 100
 
 typedef struct login_user {
 
