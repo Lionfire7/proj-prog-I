@@ -5,7 +5,7 @@
 
 int login () { 
     LOGIN_USER user;
-    SIGNUP_USER temp;
+    USERINFO temp;
 
     FILE *f = fopen("users.bin", "rb");
     if (f == NULL) {
@@ -26,7 +26,7 @@ int login () {
         int found = 0;
         rewind(f); // Go back to start of file
 
-        while (fread(&temp, sizeof(SIGNUP_USER), 1, f) == 1) {
+        while (fread(&temp, sizeof(USERINFO), 1, f) == 1) {
             if (strcmp(user.input_username, temp.sign_username) == 0) {
                 found = 1;
                 int trycounter = 0;
@@ -36,6 +36,7 @@ int login () {
                     scanf("%49s", user.input_password);
 
                     if (strcmp(user.input_password, temp.sign_password) == 0) {
+                        printf("\e[1;1H\e[2J");
                         printf("\nLogin bem-sucedido. \nBem-vindo, %s!\n\n", temp.nome);
 
                         //espacouser
@@ -69,7 +70,7 @@ int login () {
 }
 
 int signup() {
-    SIGNUP_USER user;
+    USERINFO user;
 
     printf("\n\n--- Registo de Novo Utilizador ---\n");
 

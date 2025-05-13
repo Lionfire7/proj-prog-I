@@ -5,6 +5,7 @@
 
 int listcandidatura() {
 
+    //listar
 
 }
 
@@ -14,8 +15,7 @@ int espacoUser() {
 
     do {
         
-        printf("\e[1;1H\e[2J");
-        printf("\n1 - Listar Informação de candidatura\n");
+        printf("\n1 - Listar Informação de candidatura");
         printf("\n2 - Alterar dados de candidatura");
         printf("\n3 - Status de colocação");
         printf("\n4 - Imprimir dados de candidatura");
