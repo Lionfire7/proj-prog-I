@@ -33,3 +33,10 @@ typedef struct admininfo {
     char password [100];
 
 } ADMININFO;
+
+typedef struct cursos  {
+
+    char curso [100];
+    char tag [100];
+
+} CURSOS;
