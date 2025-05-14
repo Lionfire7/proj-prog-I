@@ -26,3 +26,10 @@ typedef struct userinfo {
     char sign_password [MAX_LEN];
 
 } USERINFO;
+
+typedef struct admininfo {
+
+    char username [100];
+    char password [100];
+
+} ADMININFO;

@@ -115,7 +115,7 @@ int signup() {
     return 0;
 }
 
-int main() {
+int userlog() {
     int opcao;
 
     do {

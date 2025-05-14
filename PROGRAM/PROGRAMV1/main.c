@@ -25,13 +25,13 @@ int menu (){
         {
         case 1:
             
-            //admin
+            AdminLog ();
 
             break;
 
         case 2:
 
-            
+            userlog ();
 
             break;
 
@@ -59,7 +59,7 @@ int menu (){
 
 }
 
-int Mmain (){
+int main (){
 
     menu();
 
