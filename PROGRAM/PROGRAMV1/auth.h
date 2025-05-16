@@ -1,6 +1,7 @@
 #define MAX_USERS 100
 #define MAX_LEN 100
 #define MAX_STACK_SIZE 100
+#define MAX_CURSOS 20
 
 typedef struct login_user {
 
@@ -37,6 +38,7 @@ typedef struct admininfo {
 typedef struct cursos  {
 
     char curso [100];
-    char tag [100];
+    char tag [10];
+    int status;
 
 } CURSOS;

@@ -126,11 +126,11 @@ int espacoAdmin () {
 
 int addCurso () {
 
-    CURSOS cursos;  
+    CURSOS cursos;
 
     FILE *f = fopen("cursos.bin", "ab");
     if (f == NULL) {
-        printf("\nErro ao guardar curso.\n");
+        printf("\nErro ao abrir cursos.bin\n");
         return -1;
     }
 
@@ -145,6 +145,9 @@ int addCurso () {
     fgets(cursos.tag, sizeof(cursos.tag), stdin);
     cursos.tag[strcspn(cursos.tag, "\n")] = '\0';
 
+    printf("\nStatus:\n 1 - Ativo   /   2 - Inativo\n");
+    printf("\nEScreva aqui o status do curso: ");
+    scanf("%d", &cursos.status);
 
     fwrite(&cursos, sizeof(cursos), 1, f);
     fclose(f);
@@ -154,5 +157,11 @@ int addCurso () {
     printf("\nCurso registado com sucesso...\n\n");
 
     return 0;
+    
+}
+
+int listCursos () {
+
+    //listar cursos por ordem alfabetica
     
 }
