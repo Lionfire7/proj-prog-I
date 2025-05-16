@@ -15,6 +15,11 @@ typedef struct login_user {
 
 typedef struct userinfo {
 
+    int id;
+
+    char sign_username [MAX_LEN];
+    char sign_password [MAX_LEN];
+
     char nome [MAX_LEN];
     char cc [50];
     char nif [50];
@@ -22,9 +27,7 @@ typedef struct userinfo {
     char curso [100];
     char escola [100];
     float media;
-
-    char sign_username [MAX_LEN];
-    char sign_password [MAX_LEN];
+    char cursocandidato [50];
 
 } USERINFO;
 
@@ -42,3 +45,5 @@ typedef struct cursos  {
     int status;
 
 } CURSOS;
+
+char *chooseCurso (void);
