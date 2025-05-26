@@ -8,16 +8,14 @@ int menu (){
 
     int opcao = 0;
 
+    printf("\e[1;1H\e[2J");
+
     do
     {   
-
-        printf("\e[1;1H\e[2J");
-
         printf("\nBem Vindo ao Menu Principal...\n");
         printf("\n\n--- MENU ---\n\n");
         printf("\n1 - Administrador");
         printf("\n2 - Utilizador");
-        printf("\n3 - Print all cursos\n");
         printf("\n0 - Sair\n");
         printf("\nEscolha uma opção: ");
         scanf("%d", &opcao);
@@ -33,12 +31,6 @@ int menu (){
         case 2:
 
             userlog ();
-
-            break;
-
-        case 3:
-
-            printAllCursos ();
 
             break;
 

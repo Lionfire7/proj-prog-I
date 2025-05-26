@@ -3,52 +3,6 @@
 #include <string.h>
 #include "auth.h"
 
-void printAllCursos() {
-
-    CURSOS curso;
-    char curso_dump[50];
-    FILE *f = fopen("cursos.bin", "rb");
-    if (f == NULL) {
-        printf("Erro ao abrir o ficheiro cursos.bin\n");
-        return;
-    }
-
-    printf("\n--- Todos os Cursos ---\n");
-
-    while (fread(&curso_dump, sizeof(CURSOS), 1, f) == 1) {
-        printf("%s", curso_dump);
-
-    fclose(f);
-    }
-
-}
-
-/*int load_cursos () {
-    
-    CURSOS cursos;
-    fpos_t pos;
-    int found = 0;
-    char cursos_temp = NULL;
-
-    static char selected_tag [50];
-
-    FILE *f = fopen ("cursos.bin", "rb");
-    if (f == NULL)
-    {
-        printf("\nNao foi possivel abrir cursos.bin\n");
-        return -1;
-    }
-    do
-    {
-        fsetpos (f, pos);
-        cursos_temp = fread (&cursos, sizeof(CURSOS), 1, f);
-        fgetpos(f,&pos);
-        
-    } while (fread (&cursos, sizeof(CURSOS), 1, f) != NULL);
-    
-
-}*/
-
 int login () { 
     LOGIN_USER user;
     USERINFO temp;
@@ -117,6 +71,7 @@ int login () {
 
 int signup() {
     USERINFO user;
+    CURSOS cursos;
 
     printf("\e[1;1H\e[2J");
 
@@ -144,21 +99,43 @@ int signup() {
     printf("Média: ");
     scanf("%f", &user.media);
 
+    //chooseCurso
+
+    int found = 0;
+
+    static char selected_tag [50];
+
+    printf("\e[1;1H\e[2J");
+
+    FILE *fc = fopen("cursos.bin", "rb");
+    if (fc == NULL) {
+        printf("Erro ao abrir o ficheiro cursos.bin\n");
+        return;
+    }
+
+    printf("\e[1;1H\e[2J");
+
+    printf("\n--- Todos os Cursos ---\n\n");
+
+    while (fread(&cursos, sizeof(CURSOS), 1, fc) == 1) {
+        printf("Curso: %s | Sigla: %s | Status: %d\n", cursos.curso, cursos.tag, cursos.status);
+    }
+
+    printf("\n\nEscolhe um curso com status '1' (sigla do curso): ");
+    scanf("%s", user.cursocandidato);
+    user.cursocandidato[strcspn(user.cursocandidato, "\n")] = '\0';
+
+    fclose(fc);
+
+    printf("\e[1;1H\e[2J");
+
+    getchar ();
+
     printf("Crie um username: ");
     scanf("%s", user.sign_username);
 
     printf("Crie uma password: ");
     scanf("%s", user.sign_password);
-
-    char *selected_tag = chooseCurso ();
-    if (selected_tag == NULL)
-    {
-        printf("\mErro ao colocar sigla escolhida\n");
-        return -1;
-    }
-
-    //substituir
-    strcpy(user.cursocandidato, selected_tag);
 
     int previousid = 0;
 
@@ -220,55 +197,4 @@ int userlog() {
     } while (opcao != 0);
 
     return 0;
-}
-
-char *chooseCurso (void) {
-
-    CURSOS cursos;
-    USERINFO info;
-
-    int found = 0;
-
-    static char selected_tag [50];
-
-    FILE *f = fopen ("cursos.bin", "rb");
-    if (f == NULL)
-    {
-        printf("\nNao foi possivel abrir cursos.bin\n");
-        return -1;
-    }
-
-    printf("\e[1;1H\e[2J");
-    printf("\n--- | Cursos Disponíveis | ---\n");
-
-    while (fread(&cursos, sizeof(CURSOS), 1, f) == 1)
-    {
-        if (cursos.status == 1)
-        {
-            printf("\n-> Curso: %s    |   Sigla: %s     \n", cursos.curso, cursos.tag);
-        }
-    }
-    
-    rewind (f);
-
-    printf("Insira a Sigla do curso ao qual se pretende candidatar: ");
-    scanf("%s", selected_tag);
-
-    while (fread (&cursos, sizeof(CURSOS), 1, f) == 1) {
-
-        if (cursos.status == 1 && strcmp (selected_tag, cursos.tag) == 0)
-        {
-            found = 1;
-            break;
-        }
-
-    }
-
-    if (!found)
-    {
-        printf("\nSigla Invalida, tente outra vez\n");
-    }
-
-    fclose (f);
-    return selected_tag;
 }
