@@ -42,7 +42,7 @@ void initializeStack(STACK* stack) { stack->head = NULL; }
 void push(STACK* stack, DATA ndata){
   
     llist* new_node = (llist*)malloc(sizeof(llist));
-    
+
     new_node->data = ndata;
     new_node->next = stack->head;
     stack->head = new_node;
@@ -69,9 +69,9 @@ int main() {
     push(&stack, (DATA){33, 33});
     push(&stack, (DATA){44, 44});
 
-    printf("Top element is %d\n,%d\n ", peek(&stack));
+    printf("Top element is %d, %d\n", peek(&stack).top, peek(&stack).pos);
 
-    printf("Top element is %d\n,%d\n ", peek(&stack));
+    printf("Top element is %d, %d\n ", peek(&stack));
 
     return 0;
 }
