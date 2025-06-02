@@ -70,17 +70,18 @@ int login () {
 }
 
 int signup() {
+    
     USERINFO user;
     CURSOS cursos;
+    USERINFO temp;  // Temporary variable for reading existing users
 
     printf("\e[1;1H\e[2J");
-
     printf("\n\n--- Registo de Novo Utilizador ---\n");
 
     printf("Nome Completo: ");
-    while (getchar() != '\n');
+    while (getchar() != '\n');  // Clear input buffer
     fgets(user.nome, sizeof(user.nome), stdin);
-    user.nome[strcspn(user.nome, "\n")] = '\0';
+    user.nome[strcspn(user.nome, "\n")] = '\0';  // Remove trailing newline
 
     printf("Cartão de cidadão: ");
     scanf("%s", user.cc);
@@ -90,7 +91,7 @@ int signup() {
 
     printf("Data de nascimento (dd-mm-aaaa): ");
     scanf("%s", user.data_nasc);
-    while (getchar() != '\n');
+    while (getchar() != '\n');  // Clear input buffer
 
     printf("Curso: ");
     fgets(user.curso, sizeof(user.curso), stdin);
@@ -99,37 +100,27 @@ int signup() {
     printf("Média: ");
     scanf("%f", &user.media);
 
-    //chooseCurso
-
-    int found = 0;
-
-    static char selected_tag [50];
-
-    printf("\e[1;1H\e[2J");
-
+    // Display available courses
     FILE *fc = fopen("cursos.bin", "rb");
     if (fc == NULL) {
         printf("Erro ao abrir o ficheiro cursos.bin\n");
-        return;
+        return -1;
     }
 
     printf("\e[1;1H\e[2J");
-
     printf("\n--- Todos os Cursos ---\n\n");
 
     while (fread(&cursos, sizeof(CURSOS), 1, fc) == 1) {
         printf("Curso: %s | Sigla: %s | Status: %d\n", cursos.curso, cursos.tag, cursos.status);
     }
 
+    fclose(fc);
+
     printf("\n\nEscolhe um curso com status '1' (sigla do curso): ");
     scanf("%s", user.cursocandidato);
     user.cursocandidato[strcspn(user.cursocandidato, "\n")] = '\0';
 
-    fclose(fc);
-
-    printf("\e[1;1H\e[2J");
-
-    getchar ();
+    getchar();  // Clear newline after scanf
 
     printf("Crie um username: ");
     scanf("%s", user.sign_username);
@@ -137,34 +128,30 @@ int signup() {
     printf("Crie uma password: ");
     scanf("%s", user.sign_password);
 
-    int previousid = 0;
-
     FILE *f = fopen("users.bin", "a+b");
     if (f == NULL) {
         printf("\nErro ao guardar utilizador.\n");
         return -1;
     }
 
-    //user id
+    int previousid = 0;
 
-    rewind (f);
-    while (fread(&user, sizeof(USERINFO), 1, f) == 1)
-    {
-        if (user.id > previousid)
-        {
-            previousid = user.id;
+    rewind(f);
+    while (fread(&temp, sizeof(USERINFO), 1, f) == 1) {
+        if (temp.id > previousid) {
+            previousid = temp.id;
         }
     }
 
-    //new id
     user.id = previousid + 1;
 
-    fwrite(&user, sizeof(user), 1, f);
+    fwrite(&user, sizeof(USERINFO), 1, f);
     fclose(f);
 
     printf("\nUtilizador registado com sucesso.\n");
     return 0;
 }
+
 
 int userlog() {
     int opcao;
