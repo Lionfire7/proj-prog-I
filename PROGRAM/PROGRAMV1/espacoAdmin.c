@@ -147,9 +147,14 @@ int addCurso () {
     fgets(cursos.tag, sizeof(cursos.tag), stdin);
     cursos.tag[strcspn(cursos.tag, "\n")] = '\0';
 
+    printf("\nNumero de vagas do curso: ");
+    scanf("%d", &cursos.nvagas);
+
     printf("\nStatus:\n 1 - Ativo   /   2 - Inativo\n");
     printf("\nEScreva aqui o status do curso: ");
     scanf("%d", &cursos.status);
+
+    cursos.ncandidatos = 0;
 
     fwrite(&cursos, sizeof(cursos), 1, f);
     fclose(f);

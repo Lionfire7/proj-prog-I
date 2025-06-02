@@ -148,6 +148,8 @@ int signup() {
     fwrite(&user, sizeof(USERINFO), 1, f);
     fclose(f);
 
+    //adicionar candidato à ncandidatos (+1)
+
     printf("\nUtilizador registado com sucesso.\n");
     return 0;
 }
