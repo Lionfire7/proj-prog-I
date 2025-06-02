@@ -1,0 +1,12 @@
+========== CANDIDATURA ==========
+ID: 1
+Username: psousa
+Nome: Pedro Sousa Esteves
+Cartão de Cidadão: 78458452
+NIF: 7485852
+Data de Nascimento: 05-03-2006
+Curso: Ciencias
+Escola: 
+Média: 14.00
+Curso Candidato: EI
+=================================
