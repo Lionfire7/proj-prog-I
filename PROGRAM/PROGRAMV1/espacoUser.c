@@ -113,7 +113,7 @@ int imprimircandidatura (){
         }
 
         int found = 0;
-        rewind(f); // Go back to start of file
+
 
         while (fread(&temp, sizeof(USERINFO), 1, f) == 1) {
         if (strcmp(user.input_username, temp.sign_username) == 0) {
@@ -142,22 +142,20 @@ int imprimircandidatura (){
             fclose(out);
 
             //rename file to user__candidatura.txt
-
-            const char *old_name = "candidatura.txt";
-            char new_name[100];
-            snprintf(new_name, sizeof(new_name), "%s__candidatura.txt", temp.sign_username);
+             const char *old_name = "candidatura.txt";
+             char new_name[100];
+             snprintf(new_name, sizeof(new_name), "%s__candidatura.txt", temp.sign_username);
 
             if (rename(old_name, new_name) == 0) {
                 printf("Ficheiro renomeado com sucesso para %s\n", new_name);
             } else {
-                perror("Erro ao renomear o ficheiro");
+                 perror("Erro ao renomear o ficheiro");
             }
 
             printf("\e[1;1H\e[2J");
 
-            printf("Candidatura exportada com sucesso para 'candidatura.txt'.\n");
-            printf("O ficheiro encontra-se guardado na mesma pasta do programa\n");
-            // eu aqui queria mudar o path do ficheiro, mas como temos OS's diferentes, seria complicado de mais fazer
+            printf("Candidatura exportada com sucesso para 'user_candidatura.txt'.\n");
+            printf("O ficheiro encontra-se guardado mesma pasta onde se encontra o programa\n");
             break;
         }
     }
