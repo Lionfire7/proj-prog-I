@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "auth.h"
+#include "espacoAdmin.h"
+#include "userlog.h"
 
-
-int menu (){
+int main (){
 
     int opcao = 0;
 
@@ -55,12 +56,6 @@ int menu (){
         }
 
     } while (opcao != 0);
-
-}
-
-int main (){
-
-    menu();
-
+    
     return 0;
 }
