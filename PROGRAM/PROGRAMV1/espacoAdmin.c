@@ -42,7 +42,24 @@ int addCurso () {
 int listCursos () {
 
     //listar cursos por ordem alfabetica
-    
+    CURSOS cursos;
+
+    FILE *f = fopen("cursos.bin", "rb");
+    if (f == NULL) {
+        printf("\nErro ao abrir cursos.bin\n");
+        return -1;
+    }
+
+    printf("\e[1;1H\e[2J");
+    printf("\n--- Todos os Cursos ---\n\n");
+
+    while (fread(&cursos, sizeof(CURSOS), 1, f) == 1) {
+        printf("Curso: %s | Sigla: %s | Status: %d\n", cursos.curso, cursos.tag, cursos.status);
+    }
+
+    fclose(f);
+
+    return 0;
 }
 
 

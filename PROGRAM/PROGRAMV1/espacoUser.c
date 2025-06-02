@@ -3,11 +3,6 @@
 #include <string.h>
 #include "auth.h"
 
-int listcandidatura() {
-
-    //listar
-
-}
 
 int espacoUser() {
 
