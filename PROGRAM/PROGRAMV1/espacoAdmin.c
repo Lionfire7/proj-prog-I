@@ -109,6 +109,12 @@ int espacoAdmin () {
             
             break;
 
+        case 4 :
+
+            listarCursosA ();
+
+            break;
+
         case 0 :
 
             return 0;
@@ -167,8 +173,40 @@ int addCurso () {
     
 }
 
-int listCursos () {
+//fiz a função separada pra ficar mais simples
 
-    //listar cursos por ordem alfabetica
-    
+int compareCursos(const void *a, const void *b) {
+    const CURSOS *cursoA = (const CURSOS *)a;
+    const CURSOS *cursoB = (const CURSOS *)b;
+    return strcmp(cursoA->curso, cursoB->curso);
+}
+
+//função principal de listar aqui
+
+void listarCursosA () {
+    FILE *fp = fopen("cursos.bin", "rb");
+    if (fp == NULL) {
+        perror("Erro ao abrir cursos.bin");
+        return;
+    }
+
+    CURSOS cursos[MAX_CURSOS];
+    int total = fread(cursos, sizeof(CURSOS), MAX_CURSOS, fp);
+    fclose(fp);
+
+    if (total == 0) {
+        printf("Nenhum curso encontrado.\n");
+        return;
+    }
+
+    qsort(cursos, total, sizeof(CURSOS), compareCursos);
+
+    printf("\e[1;1H\e[2J");
+    printf("Cursos ordenados alfabeticamente:\n\n");
+    for (int i = 0; i < total; i++) {
+        printf("%s (%s) - Candidatos: %d, Vagas: %d\n",
+               cursos[i].curso, cursos[i].tag, cursos[i].ncandidatos, cursos[i].nvagas);
+    }
+
+    printf("\n");
 }

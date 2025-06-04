@@ -3,6 +3,8 @@
 #define MAX_STACK_SIZE 100
 #define MAX_CURSOS 20
 
+#define NIF_LENGHT 9
+
 typedef struct login_user {
 
     char input_username [MAX_LEN];

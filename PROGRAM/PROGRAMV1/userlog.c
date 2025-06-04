@@ -88,6 +88,7 @@ int signup() {
 
     printf("NIF: ");
     scanf("%s", user.nif);
+    user.nif[strcspn(user.nif, "\n")] = '\0';
 
     printf("Data de nascimento (dd-mm-aaaa): ");
     scanf("%s", user.data_nasc);
