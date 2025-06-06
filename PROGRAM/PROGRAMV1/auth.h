@@ -29,8 +29,16 @@ typedef struct llist {
 typedef struct cursos  {
 
     char curso [100];
+    char escola [10];
     char tag [10];
     int status;
 
 } CURSOS;
 
+typedef struct coloc{
+    int id;
+    char username [MAX_LEN];
+    char nome [MAX_LEN];
+    char curso [MAX_CURSOS];
+    char status [10];
+}COLOC;

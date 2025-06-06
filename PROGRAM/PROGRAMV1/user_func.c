@@ -90,12 +90,6 @@ int signup() {
 
     int previousid = 0;
 
-    FILE *f = fopen("users.bin", "a+b");
-    if (f == NULL) {
-        printf("\nErro ao guardar utilizador.\n");
-        return -1;
-    }
-
     printf("Nome Completo: ");
     while (getchar() != '\n');
     fgets(user.nome, sizeof(user.nome), stdin);
@@ -118,6 +112,12 @@ int signup() {
     printf("Média: ");
     scanf("%f", &user.media);
 
+    getchar();
+
+    printf("Escola: ");
+    fgets(user.escola, sizeof(user.escola), stdin);
+    user.escola[strcspn(user.escola, "\n")] = '\0';
+
     printf("\e[1;1H\e[2J");
 
     FILE *fc = fopen("cursos.bin", "rb");
@@ -129,7 +129,7 @@ int signup() {
     printf("\e[1;1H\e[2J");
     printf("\n--- Todos os Cursos ---\n\n");
 
-    while (fread(&cursos, sizeof(CURSOS), 1, fc) != 1) {
+    while (fread(&cursos, sizeof(CURSOS), 1, fc) == 1) {
         printf("Curso: %s | Sigla: %s | Status: %d\n", cursos.curso, cursos.tag, cursos.status);
     }
 
@@ -141,17 +141,25 @@ int signup() {
 
     getchar();  
 
-    rewind (f);
-    while (fread(&user, sizeof(USERINFO), 1, f) == 1)
-    {
-        if (user.id > previousid)
-        {
-            previousid = user.id;
-        }
+    FILE *fuserid = fopen("userid.bin", "a+b");
+    if (fuserid == NULL) {
+        printf("\nErro ao abrir o ficheiro userid.bin.\n");
+        return -1;
     }
 
-    //new id
-    user.id = previousid + 1;
+    while (fread(&previousid, sizeof(USERINFO), 1, fuserid) == 1)
+    {
+        user.id = previousid + 1;
+    }
+    fprintf(fuserid, "%d", user.id);
+    fclose(fuserid);
+
+    FILE *f = fopen("users.bin", "a+b");
+    if (f == NULL) {
+        printf("\nErro ao abrir o ficheiro users.bin.\n");
+        return -1;
+    }
+
 
     fwrite(&user, sizeof(user), 1, f);
     fclose(f);
@@ -265,3 +273,66 @@ int userlog (llist *head) {
     return 0;
 }
 
+void statusColocacao(USERINFO temp) {
+    printf("\e[1;1H\e[2J");
+
+    COLOC colocado;
+
+    FILE *f = fopen("colocacao.bin", "rb");
+
+    if (f == NULL) {
+        printf("\nErro ao abrir base de dados de colocados.\n");
+        return -1;
+    }
+
+    while (fread(&colocado, sizeof(COLOC),1, f) == 1) {
+        if (strcmp(colocado.username, temp.username) == 0) {
+        
+        printf("ID: %d | Username: %s | Curso Candidato: %s | Status: %d\n", colocado.id, colocado.username, colocado.curso, colocado.status);
+        }
+        else {
+            printf("Nenhum resultado encontrado para o utilizador %s.\n", temp.username);
+        }
+        
+    }
+
+    return;
+}
+
+void alterarDadosCandidatura(USERINFO temp){
+    printf("\e[1;1H\e[2J");
+    printf("\n--- Alterar Dados de Candidatura ---\n");
+
+    printf("Nome Completo: ");
+    while (getchar() != '\n');
+    fgets(temp.nome, sizeof(temp.nome), stdin);
+    temp.nome[strcspn(temp.nome, "\n")] = '\0';
+
+    printf("Cartão de cidadão: ");
+    scanf("%s", temp.cc);
+
+    printf("NIF: ");
+    scanf("%s", temp.nif);
+
+    printf("Data de nascimento (dd-mm-aaaa): ");
+    scanf("%s", temp.data_nasc);
+    while (getchar() != '\n');
+
+    printf("Curso: ");
+    fgets(temp.curso, sizeof(temp.curso), stdin);
+    temp.curso[strcspn(temp.curso, "\n")] = '\0';
+
+    printf("Média: ");
+    scanf("%f", &temp.media);
+
+    getchar();
+
+    printf("Escola: ");
+    fgets(temp.escola, sizeof(temp.escola), stdin);
+    temp.escola[strcspn(temp.escola, "\n")] = '\0';
+
+    printf("\e[1;1H\e[2J");
+    printf("\nDados de candidatura alterados com sucesso.\n");
+        
+    return;
+}

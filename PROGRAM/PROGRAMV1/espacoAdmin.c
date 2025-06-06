@@ -96,6 +96,9 @@ int espacoAdmin (llist *head) {
             
             break;
 
+        case 2 :
+            listCursos ();
+            
         case 0 :
 
             return 0;

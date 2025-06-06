@@ -28,13 +28,13 @@ int espacoCandidato(USERINFO temp) {
 
             case 2:
 
-                // alterarDadosCandidatura();
+                alterarDadosCandidatura();
 
                 break;
 
             case 3:
 
-                // statusColocacao();
+                statusColocacao(temp);
 
                 break;
 

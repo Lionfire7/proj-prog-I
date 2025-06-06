@@ -11,5 +11,17 @@ int main (){
 
     userlog (&head);
 
+    FILE *f = fopen("users.bin", "r+b");
+    if (f == NULL) {
+        printf("\nErro ao abrir o ficheiro users.bin.\n");
+        return -1;
+    }
+
+    while (head != NULL) {
+        fwrite(&head->userinfo, sizeof(USERINFO), 1, f);
+        head = head->next;
+    }
+
+    fclose(f);
     return 0;
 }

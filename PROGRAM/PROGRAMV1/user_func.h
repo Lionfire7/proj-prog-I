@@ -7,3 +7,5 @@ int signup();
 int espacoCandidato(USERINFO temp);
 
 int userlog(llist **head);
+
+void statusColocacao(USERINFO temp);
