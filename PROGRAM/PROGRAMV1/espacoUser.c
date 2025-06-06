@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "auth.h"
+#include "user_func.h"
 
-
-int espacoUser() {
+int espacoCandidato(USERINFO temp) {
 
     int opcao = 0;
 
@@ -22,8 +22,7 @@ int espacoUser() {
         switch (opcao) {
             case 1:
 
-                // listarInformacaoCandidatura();
-                listcandidatura();
+                listcandidatura(temp);
 
                 break;
 
@@ -41,14 +40,15 @@ int espacoUser() {
 
             case 4:
 
-                // imprimirDadosCandidatura();
-
+                imprimircandidatura (temp);
+                
                 break;
 
             case 0:
 
                 printf("\e[1;1H\e[2J");
-
+                printf("\nA voltar ao menu principal...\n\n");
+                
                 return 0;
 
                 break;

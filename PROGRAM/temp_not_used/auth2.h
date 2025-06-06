@@ -42,6 +42,7 @@ typedef struct cursos  {
     char curso [100];
     char tag [10];
     int status;
+    char escola [100];
 
 } CURSOS;
 

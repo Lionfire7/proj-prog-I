@@ -3,22 +3,12 @@
 #define MAX_STACK_SIZE 100
 #define MAX_CURSOS 20
 
-typedef struct login_user {
-
-    char input_username [MAX_LEN];
-    char input_password [MAX_LEN];
-
-    char login_username [MAX_LEN];
-    char login_password [MAX_LEN];
-
-} LOGIN_USER;
-
 typedef struct userinfo {
 
     int id;
 
-    char sign_username [MAX_LEN];
-    char sign_password [MAX_LEN];
+    char username [MAX_LEN];
+    char password [MAX_LEN];
 
     char nome [MAX_LEN];
     char cc [50];
@@ -31,12 +21,10 @@ typedef struct userinfo {
 
 } USERINFO;
 
-typedef struct admininfo {
-
-    char username [100];
-    char password [100];
-
-} ADMININFO;
+typedef struct llist {
+    USERINFO userinfo;
+    struct llist* next;
+} llist;
 
 typedef struct cursos  {
 
@@ -46,4 +34,3 @@ typedef struct cursos  {
 
 } CURSOS;
 
-char *chooseCurso (void);

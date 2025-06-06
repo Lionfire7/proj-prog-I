@@ -1,1 +1,1 @@
-int espacoUser();
+int espacoCandidato(USERINFO temp);

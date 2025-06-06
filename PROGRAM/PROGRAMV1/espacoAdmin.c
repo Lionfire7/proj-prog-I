@@ -63,9 +63,7 @@ int listCursos () {
 }
 
 
-int espacoAdmin () {
-
-    ADMININFO admin;
+int espacoAdmin (llist *head) {
 
     int op = 0;
 
@@ -114,77 +112,5 @@ int espacoAdmin () {
     return 0;
 
 }
-
-int AdminLog () {
-
-    //admin log
-
-    ADMININFO admin;
-
-    char input_username [100];
-    char input_password [100];
-
-    FILE *f = fopen("admin.bin", "rb");
-    if (f == NULL) {
-        printf("\nErro ao abrir base de dados de utilizadores.\n");
-        return -1;
-    }
-
-    do {
-
-        printf("\n\nInsira o seu username (0 para voltar): ");
-        scanf("%49s", input_username);
-
-        if (strcmp(input_username, "0") == 0) {
-            fclose(f);
-            return 0;
-        }
-
-        int found = 0;
-        rewind(f); // Go back to start of file
-
-        while (fread(&admin, sizeof(ADMININFO), 1, f) == 1) {
-            if (strcmp(input_username, admin.username) == 0) {
-                found = 1;
-                int trycounter = 0;
-
-                do {
-                    printf("\nInsira a sua password: ");
-                    scanf("%49s", input_password);
-
-                    if (strcmp(input_password, admin.password) == 0) {
-                        printf("\e[1;1H\e[2J");
-                        printf("\nLogin bem-sucedido. \nBem-vindo, Admin\n\n");
-
-                        //espacouser
-
-                        espacoAdmin();
-
-                        fclose(f);
-                        return 0;
-                    } else {
-                        printf("\nPassword incorreta.\n");
-                        trycounter++;
-                    }
-
-                } while (trycounter < 3);
-
-                printf("\nExcedeu o número de tentativas.\n");
-                fclose(f);
-                return 0;
-            }
-        }
-
-        if (!found) {
-            printf("\e[1;1H\e[2J");
-            printf("\nUsername não encontrado. Tente novamente.\n");
-        }
-
-    } while (strcmp(input_username, "0") != 0);
-
-    fclose(f);
-    return 0;
-}
-
 
 
