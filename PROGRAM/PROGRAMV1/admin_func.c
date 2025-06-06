@@ -48,10 +48,10 @@ int addCurso () {
 
 void alterarDadosCurso() {
     CURSOS cursos[MAX_CURSOS];
-    char tag[10] = 0;
+    char tag[10];
     int i = 0, found = 0;
 
-    printf("\n Escreva a TAG no curso a alterar: ");
+    printf("\n Escreva a TAG do curso a alterar: ");
     scanf("%s", tag);
     getchar(); 
 
@@ -229,7 +229,40 @@ void listarCursosEscola() {
 }
 
 void listarCandidatosCurso (llist **head){
-    
+    CURSOS cursos[MAX_CURSOS];
+    char tag[10];
+    int i = 0, found = 0;
+
+    printf("\n Escreva a TAG do curso a procurar candidatos: ");
+    scanf("%s", tag);
+    getchar(); 
+
+    FILE *f = fopen("cursos.bin", "rb");
+    if (f == NULL) {
+        printf("\nErro ao abrir cursos.bin\n");
+        return -1;
+    }
+
+    while (fread(&cursos[i], sizeof(CURSOS), 1, f) == 1) {
+        i = i+1;
+    }
+
+    if (found == 0) {
+        printf("\nCurso não encontrado.\n");
+        return;
+    }
+
+    fclose(f);
+
+    while (head != NULL) {
+        if (strcmp((*head)->userinfo.cursocandidato, tag) == 0) {
+            printf("Nome:%s, Media:%f", (*head)->userinfo.nome, (*head)->userinfo.media);
+            return;
+        }
+               
+        head = &((*head)->next);
+    }
+
 }
 
 void fecharcandidaturas(){
@@ -247,4 +280,115 @@ void fecharcandidaturas(){
     fclose(f);
 
     return;
+}
+
+void seriarcandidator() {}
+
+void imprimircandidatos() {
+    printf("\e[1;1H\e[2J");
+
+    COLOC colocado;
+
+    FILE *f = fopen("colocacao.bin", "rb");
+
+    FILE *fimpall = fopen("candidatos.txt", "w");
+
+    if (f == NULL) {
+        printf("\nErro ao abrir base de dados de colocados.\n");
+        return -1;
+    }
+
+    while (fread(&colocado, sizeof(COLOC),1, f) == 1) {
+        fprintf(fimpall, "ID: %d | Username: %s | Curso Candidato: %s | Status: %d\n", colocado.id, colocado.username, colocado.curso, colocado.status);
+    }
+
+    fclose(f);
+    fclose(fimpall);
+    return;
+}
+
+void imprimircandidatosCurso(){
+    printf("\e[1;1H\e[2J");
+    COLOC colocado;
+
+    char tag[10], tab[20], tabb[10];
+
+    printf("\n Escreva a TAG do curso a buscar candidatos: ");
+    scanf("%s", tag);
+
+    printf("\n Escreva o ano letivo (ex: 2023): ");
+    scanf("%s", tabb);
+
+    strcpy(tab, tag);
+    strcat(tab, tabb);
+    strcat(tab, ".txt");
+
+    FILE *f = fopen("colocacao.bin", "rb");
+
+    FILE *fimpall = fopen(tabb, "w");
+
+    if (f == NULL) {
+        printf("\nErro ao abrir base de dados de colocados.\n");
+        return -1;
+    }
+
+    while (fread(&colocado, sizeof(COLOC),1, f) == 1) {
+        if (strcmp(colocado.curso, tag) == 0 && colocado.status == "Colocado") {
+            fprintf(fimpall, "ID: %d | Username: %s | Curso Candidato: %s | Status: %d\n", colocado.id, colocado.username, colocado.curso, colocado.status);
+        }
+    }
+
+    fclose(f);
+    fclose(fimpall);
+    return;
+}
+
+void imprimircandidatosEscola(llist **head) {
+    FILE *fp = fopen("cursos.bin", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir cursos.bin");
+        return;
+    }
+    int l = 0;
+    char nome[MAX_LEN][l], temp[MAX_LEN];
+    CURSOS cursos[MAX_CURSOS];
+    int total = fread(cursos, sizeof(CURSOS), MAX_CURSOS, fp);
+    fclose(fp);
+
+    if (total == 0) {
+        printf("Nenhum curso encontrado.\n");
+        return;
+    }
+
+    while (*head != NULL) {
+        strcpy(nome[l], (*head)->userinfo.nome);
+        head = &((*head)->next);
+        l++;
+    }
+
+    for (int i = 0; i < l - 1; i++) {
+        for (int j = 0; j < l - i - 1; j++) {
+            if (strcmp(nome[j], nome[j + 1]) > 0) {
+                strcpy(temp, nome[j]);
+                strcpy(nome[j], nome[j + 1]);
+                strcpy(nome[j + 1], temp);
+            }
+        }
+    }
+
+    qsort(cursos, total, sizeof(CURSOS), compareCursos);
+
+    printf("\e[1;1H\e[2J");
+    printf("Cursos ordenados alfabeticamente:\n\n");
+    for (int i = 0; i < total; i++) {
+        fprintf("Aluno: %s, Curso: %s", cursos[i].curso, nome[i]);
+    }
+
+    printf("\n");
+}
+
+void analiseCandidaturas() {
+    printf("\e[1;1H\e[2J");
+    printf("\n--- | Analise de Candidaturas | ---\n");
+    printf("\nA ser implementado...\n\n");
 }

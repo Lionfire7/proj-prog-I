@@ -70,6 +70,8 @@ int imprimircandidatura (USERINFO temp){
 }
 
 int signup() {
+    int aberto = 0;
+
     FILE *f = fopen("aberto.bin", "rb");
 
     if (fread(&aberto, sizeof(int), 1, f) == 1) {
