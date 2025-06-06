@@ -186,7 +186,7 @@ int compareCursos(const void *a, const void *b) {
 void listarCursosA () {
     FILE *fp = fopen("cursos.bin", "rb");
     if (fp == NULL) {
-        perror("Erro ao abrir cursos.bin");
+        printf("Erro ao abrir cursos.bin");
         return;
     }
 
