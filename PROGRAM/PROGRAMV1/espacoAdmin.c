@@ -2,66 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "auth.h"
-
-int addCurso () {
-
-    CURSOS cursos;
-
-    FILE *f = fopen("cursos.bin", "ab");
-    if (f == NULL) {
-        printf("\nErro ao abrir cursos.bin\n");
-        return -1;
-    }
-
-    printf("\e[1;1H\e[2J");
-    printf("\n--- | Adicionar Curso | ---\n");
-    printf("\nEscreva aqui o nome completo do curso: ");
-    fgets(cursos.curso, sizeof(cursos.curso), stdin);
-    cursos.curso[strcspn(cursos.curso, "\n")] = '\0';
-
-
-    printf("\nEscreva a sigla do Curso: ");
-    fgets(cursos.tag, sizeof(cursos.tag), stdin);
-    cursos.tag[strcspn(cursos.tag, "\n")] = '\0';
-
-    printf("\nStatus:\n 1 - Ativo   /   2 - Inativo\n");
-    printf("\nEScreva aqui o status do curso: ");
-    scanf("%d", &cursos.status);
-
-    fwrite(&cursos, sizeof(cursos), 1, f);
-    fclose(f);
-
-    printf("\e[1;1H\e[2J");
-
-    printf("\nCurso registado com sucesso...\n\n");
-
-    return 0;
-    
-}
-
-int listCursos () {
-
-    //listar cursos por ordem alfabetica
-    CURSOS cursos;
-
-    FILE *f = fopen("cursos.bin", "rb");
-    if (f == NULL) {
-        printf("\nErro ao abrir cursos.bin\n");
-        return -1;
-    }
-
-    printf("\e[1;1H\e[2J");
-    printf("\n--- Todos os Cursos ---\n\n");
-
-    while (fread(&cursos, sizeof(CURSOS), 1, f) == 1) {
-        printf("Curso: %s | Sigla: %s | Status: %d\n", cursos.curso, cursos.tag, cursos.status);
-    }
-
-    fclose(f);
-
-    return 0;
-}
-
+#include "admin_func.h"
 
 int espacoAdmin (llist *head) {
 
@@ -95,10 +36,26 @@ int espacoAdmin (llist *head) {
             addCurso ();
             
             break;
-
         case 2 :
-            listCursos ();
-            
+            alterarDadosCurso ();
+            break;
+        case 3 :
+            alterarStatusCurso ();
+            break;
+
+        case 4 :
+            listarCursosA ();
+            break;
+
+        case 5 :
+            listarCursosEscola();
+            break;
+        case 6 :
+            listarCandidatosCurso();
+            break;
+        case 7 :
+            fecharCandidaturas();
+            break;
         case 0 :
 
             return 0;

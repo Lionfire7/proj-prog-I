@@ -70,6 +70,16 @@ int imprimircandidatura (USERINFO temp){
 }
 
 int signup() {
+    FILE *f = fopen("aberto.bin", "rb");
+
+    if (fread(&aberto, sizeof(int), 1, f) == 1) {
+        if (aberto != 0) {
+            printf("\nAs candidaturas fecharam.\n");
+            fclose(f);
+            return -1;
+        }
+    }
+    fclose(f);
 
     USERINFO user;
     CURSOS cursos;
@@ -130,7 +140,8 @@ int signup() {
     printf("\n--- Todos os Cursos ---\n\n");
 
     while (fread(&cursos, sizeof(CURSOS), 1, fc) == 1) {
-        printf("Curso: %s | Sigla: %s | Status: %d\n", cursos.curso, cursos.tag, cursos.status);
+        printf("%s (%s) - Candidatos: %d, Vagas: %d, Escola: %s, Status: %d\n",
+        cursos.curso, cursos.tag, cursos.candidatos, cursos.nvagas, cursos.escola, cursos.status);
     }
 
     fclose(fc);
@@ -336,3 +347,4 @@ void alterarDadosCandidatura(USERINFO temp){
         
     return;
 }
+

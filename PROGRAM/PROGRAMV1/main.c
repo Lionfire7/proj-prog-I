@@ -11,7 +11,7 @@ int main (){
 
     userlog (&head);
 
-    FILE *f = fopen("users.bin", "r+b");
+    FILE *f = fopen("users.bin", "w+b");
     if (f == NULL) {
         printf("\nErro ao abrir o ficheiro users.bin.\n");
         return -1;

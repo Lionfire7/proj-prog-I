@@ -28,7 +28,7 @@ int espacoCandidato(USERINFO temp) {
 
             case 2:
 
-                alterarDadosCandidatura();
+                alterarDadosCandidatura(temp);
 
                 break;
 
